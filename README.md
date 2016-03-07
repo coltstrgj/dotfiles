@@ -1,0 +1,3 @@
+# dotfiles
+This is my new repo to replace my old repo containing my dotfiles eventually...
+For now it is just cs go autoexec
