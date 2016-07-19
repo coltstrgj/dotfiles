@@ -1,0 +1,42 @@
+#!/bin/mksh
+
+#PS1 and title 
+no_color="[0m"
+color1="[0;1;36m"
+PS1='[$color1`local WD=${PWD/$HOME/"~"}; if (( ${#WD} > 23 )); then print ${WD:0:10}...${WD: -10: -1}; else print $WD; fi`$no_color]\
+`(git branch 2>/dev/null | grep \* | cut -c3-)`>'
+set_term_name() {
+    printf "\033];$1\007"
+}
+
+
+SSH_IP=$(echo "${SSH_CLIENT%% *}")
+if [ $SSH_IP ] ; then
+    set_term_name "$(logname)@$(hostname -s)\007"
+else    
+    set_term_name ""
+fi
+
+
+###############################################################################
+#terminal usage
+###############################################################################
+#mkae control+l work again
+bind '^L=clear-screen'
+alias ls='ls --color=auto --group-directories-first'
+alias \!\!='fc -e -'
+alias grep='grep --color=auto' 
+alias keyboardisgay='setxkbmap `cat ~/.Xkbmap`'
+###############################################################################
+#alias 
+###############################################################################
+alias cp='cp -i'
+alias mv='mv -i'
+alias wifi=/home/ikleiner/.config/wireless/trying
+
+
+###############################################################################
+#Path and other variables
+###############################################################################
+export GOPATH=~/.go
+export PATH="${PATH}:~/.rbenv/shims:/home/ikleiner/.gem/ruby/2.3.0/bin"

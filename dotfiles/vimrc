@@ -1,0 +1,196 @@
+" no vi-compatible
+set nocompatible
+set clipboard=unnamedplus
+set backspace=indent,eol,start
+set title
+syntax on
+set encoding=utf-8
+" Become a peasant and enable the mouse
+" set mouse=a
+
+" tabs and spaces handling
+set noexpandtab  " shoult I use spaces instead of actual tab characters 
+set tabstop=4 " tabs are three spaces wide... Fuck the police
+set softtabstop=4
+set shiftwidth=4
+set autoindent
+set smartindent
+
+" Show indents with pipe
+set listchars=tab:>\  
+set list
+" incremental search
+set incsearch
+" highlighted search results
+set hlsearch
+
+" line numbers on
+set nu
+
+" timeout ruins keymaps for some reason
+" set timeoutlen=50
+
+if exists('&breakindent')
+    set breakindent   " Indent wrapped lines up to the same level
+endif
+"------------------------------------------------------------------------------"
+"--------------------------Bundle the things-----------------------------------"
+"------------------------------------------------------------------------------"
+" Setting up Vundle - the vim plugin bundler
+let iCanHazVundle=1
+let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
+if !filereadable(vundle_readme)
+    echo "Installing Vundle..."
+    echo ""
+    silent !mkdir -p ~/.vim/bundle
+    silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+    let iCanHazVundle=0
+endif
+
+" required for vundle
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+let $PYTHONPATH='/usr/lib/python3.5/site-packages'
+" let Vundle manage Vundle
+" required!
+Plugin 'gmarik/vundle'
+
+" Bundles from GitHub repos:
+
+" Better file browser
+" Bundle 'scrooloose/nerdtree'
+
+" Code commenter
+"Bundle 'scrooloose/nerdcommenter'
+
+" Class/module browser
+Plugin 'majutsushi/tagbar'
+
+" --Powerline python-powerline-git in aur
+" Get airline because powerline is not behaving 
+Plugin 'vim-airline/vim-airline'
+" Get powerline patches for whatever font we are using
+let g:airline_powerline_fonts = 1
+" Get themes for airline
+Plugin 'vim-airline/vim-airline-themes'
+" set up coloring
+set t_Co=256
+let base16colorspace=256
+" not bad themes
+" murmur, atelierforest (dark), atelierlakeside (dark), solarized dark, base16_google
+" let g:airline_theme='murmur'
+let g:airline_theme='murmur'
+
+" Have to have ctags installed for these to work 
+" also need easytags to keep tagbar up to date
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
+
+
+"how the fuck dos this work? Why are docs so bad, I want this to be good
+Plugin 'fisadev/FixedTaskList.vim'
+
+" List number of items that match search pattern
+Plugin 'IndexedSearch' 
+
+" git information (changes and such shown left of line numbers
+Plugin 'airblade/vim-gitgutter'
+
+Plugin 'tpope/vim-fugitive'
+
+" trying out YCM
+Plugin 'Valloric/YouCompleteMe'
+
+" Trying vim-go, it will probably ruin YCM and tagbar
+Plugin 'fatih/vim-go'
+
+" LaTeX Plugins
+" Helper
+Plugin 'lervag/vimtex'
+" live preview
+Plugin 'xuhdev/vim-latex-live-preview'
+
+
+" Installing plugins the first time
+if iCanHazVundle == 0
+    echo "Installing Bundles, please ignore key map error messages"
+    echo ""
+    :BundleInstall
+endif
+
+" allow plugins by file type
+filetype plugin on
+filetype indent on
+let g:ycm_path_to_python_interpreter = '/usr/bin/python2'
+"------------------------------------------------------------------------------"
+"----------------------------Set up keybinds-----------------------------------"
+"------------------------------------------------------------------------------"
+" Screw nerd commenter and languages that do not use //
+"Comment before selected (use ctrl+v to select lines)
+map cc <S-i>//<ESC>
+" Comment block (just start at beginning of block)
+map cb <C-v>%<S-i>//<ESC>
+
+" toggle Tagbar display
+nmap <F2> :TagbarToggle<CR>
+" autofocus on Tagbar open
+let g:tagbar_autofocus = 1
+
+" always show the status from powerline
+set laststatus=2
+
+" NERDTree (better file browser)
+" Will I ever use it? remove it from vundle too if not. 
+" map <F3> :NERDTreeToggle<CR>
+
+" tab navigation
+map tt :tabn<CR>
+map ty :tabp<CR>
+map tm :tabm<CR>
+map tn :tabnew 
+
+" Ctrl+shift+direction to navigate tabs
+map <C-S-Right> :tabn<CR>
+imap <C-S-Right> <ESC>:tabn<CR>
+map <C-S-Left> :tabp<CR>
+imap <C-S-Left> <ESC>:tabp<CR>
+map <C-S-l> :tabn<CR>
+imap <C-S-l> <ESC>:tabn<CR>
+map <C-S-h> :tabp<CR>
+imap <C-S-h> <ESC>:tabp<CR>
+
+" navigate windows with meta+arrows
+map <M-Right> <c-w>l
+map <M-Left> <c-w>h
+map <M-Up> <c-w>k
+map <M-Down> <c-w>j
+imap <M-Right> <ESC><c-w>l
+imap <M-Left> <ESC><c-w>h
+imap <M-Up> <ESC><c-w>k
+imap <M-Down> <ESC><c-w>j
+
+" automatically close autocompletition window
+" autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+" autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+" Vim-go binds
+au FileType *.go nmap <Leader>ds <Plug>(go-def-split)
+au FileType *.go nmap <Leader>dv <Plug>(go-def-vertical)
+
+" show pending tasks list
+map <F3> :TaskList<CR>
+
+" save as sudo
+ca w!! w !sudo tee "%"
+
+" colors and settings of autocompletition
+highlight Pmenu ctermbg=4 guibg=LightGray
+
+" when scrolling, keep cursor a few lines away from screen border
+set scrolloff=5
+
+" autocompletition of files and commands behaves like shell
+" (complete only the common part, list the options that match)
+set wildmode=list:longest
