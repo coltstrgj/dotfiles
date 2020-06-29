@@ -66,7 +66,7 @@ Plugin 'gmarik/vundle'
 "Bundle 'scrooloose/nerdcommenter'
 
 " Class/module browser
-Plugin 'majutsushi/tagbar'
+"Plugin 'majutsushi/tagbar'
 
 " --Powerline python-powerline-git in aur
 " Get airline because powerline is not behaving 
@@ -85,8 +85,8 @@ let g:airline_theme='murmur'
 
 " Have to have ctags installed for these to work 
 " also need easytags to keep tagbar up to date
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-easytags'
+"Plugin 'xolox/vim-misc'
+"Plugin 'xolox/vim-easytags'
 
 
 "how the fuck dos this work? Why are docs so bad, I want this to be good
@@ -101,7 +101,7 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
 
 " trying out YCM
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 
 " Trying vim-go, it will probably ruin YCM and tagbar
 Plugin 'fatih/vim-go'
@@ -123,7 +123,7 @@ endif
 " allow plugins by file type
 filetype plugin on
 filetype indent on
-let g:ycm_path_to_python_interpreter = '/usr/bin/python2'
+let g:ycm_path_to_python_interpreter = '/usr/bin/python3'
 "------------------------------------------------------------------------------"
 "----------------------------Set up keybinds-----------------------------------"
 "------------------------------------------------------------------------------"
